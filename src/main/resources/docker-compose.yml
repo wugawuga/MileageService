@@ -1,0 +1,15 @@
+version: "3"
+
+services:
+  db:
+    container_name: "mysql_mileage"
+    image: mysql:5.7
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./volumes-mysql/mysql/:/var/lib/mysql/
+    environment:
+      MYSQL_ROOT_PASSWORD: "rootpwpw"
+      MYSQL_DATABASE: "review"
+      MYSQL_USER: "username"
+      MYSQL_PASSWORD: "userpwpw"
