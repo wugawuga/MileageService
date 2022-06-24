@@ -106,6 +106,7 @@ class ReviewControllerTest {
     }
 
     @Test
+    @Transactional
     public void 리뷰재등록() throws Exception {
 
         User user = new User();
@@ -129,12 +130,13 @@ class ReviewControllerTest {
         dto.setType("REVIEW");
         dto.setAction("ADD");
 
-        assertThatThrownBy(() -> reviewMileageService.reviewCheck(dto))
+        assertThatThrownBy(() -> reviewMileageService.actionCheck(dto))
             .isInstanceOf(ExistReviewAtPlaceException.class)
             .hasMessage("존재합니다");
     }
 
     @Test
+    @Transactional
     public void 작성한리뷰없을때_정상적으로_등록() throws Exception {
 
         User user = new User();
@@ -154,9 +156,46 @@ class ReviewControllerTest {
         reviewDTO.setPlaceId(place.getPlaceId().toString());
         reviewDTO.setAttachedPhotoIds(filename);
 
-        Review review = reviewMileageService.reviewCheck(reviewDTO);
+        Review review = reviewMileageService.actionCheck(reviewDTO);
 
         assertThat(review.getUser().getUserId()).isEqualTo(user.getUserId());
         assertThat(review.getReviewPhoto().get(0).getReview().getReviewId()).isEqualTo(review.getReviewId());
+    }
+
+    @Test
+    public void 같은장소_두번재_댓글작성시_마일리지() throws Exception {
+
+        User user = new User();
+        user.setUserName("yun");
+        userRepository.save(user);
+        User user1 = new User();
+        user1.setUserName("wugawuga");
+        userRepository.save(user1);
+
+        Place place = new Place();
+        place.setPlaceName("커피커피커피집");
+        placeRepository.save(place);
+
+        ReviewDTO reviewDTO = new ReviewDTO();
+        String[] filename = {"1", "2"};
+        reviewDTO.setAction("ADD");
+        reviewDTO.setType("REVIEW");
+        reviewDTO.setContent("좋아요!");
+        reviewDTO.setUserId(user.getUserId().toString());
+        reviewDTO.setPlaceId(place.getPlaceId().toString());
+        reviewDTO.setAttachedPhotoIds(filename);
+
+        ReviewDTO reviewDTO1 = new ReviewDTO();
+        String[] filename1 = {"1", "2"};
+        reviewDTO1.setAction("ADD");
+        reviewDTO1.setType("REVIEW");
+        reviewDTO1.setContent("좋아요!");
+        reviewDTO1.setUserId(user1.getUserId().toString());
+        reviewDTO1.setPlaceId(place.getPlaceId().toString());
+        reviewDTO1.setAttachedPhotoIds(filename1);
+
+        Review review = reviewMileageService.actionCheck(reviewDTO);
+        Review review1 = reviewMileageService.actionCheck(reviewDTO1);
+
     }
 }

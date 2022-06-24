@@ -1,8 +1,8 @@
 package com.mileage.wuga.exception;
 
-public class ExistReviewAtPlace extends RuntimeException{
+public class ExistReviewAtPlaceException extends RuntimeException{
 
-    public ExistReviewAtPlace(String message) {
+    public ExistReviewAtPlaceException(String message) {
         super(message);
     }
 }

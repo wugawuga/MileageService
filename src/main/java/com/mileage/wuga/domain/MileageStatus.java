@@ -1,2 +1,9 @@
-package com.mileage.wuga.domain;public enum MileageStatus {
+package com.mileage.wuga.domain;
+
+public enum MileageStatus {
+
+    ADD_CONTENT, ADD_IMAGE, ADD_CONTENT_IMAGE,
+    ADD_CONTENT_FIRST, ADD_IMAGE_FIRST, ADD_CONTENT_IMAGE_FIRST,
+    DEL_CONTENT, DEL_IMAGE, DEL_CONTENT_IMAGE,
+    DEL_CONTENT_FIRST, DEL_IMAGE_FIRST, DEL_CONTENT_IMAGE_FIRST
 }

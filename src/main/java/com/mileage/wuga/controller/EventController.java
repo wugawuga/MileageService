@@ -11,19 +11,19 @@ import org.springframework.web.bind.annotation.PostMapping;
 @RequiredArgsConstructor
 public class EventController {
 
-    private ReviewMileageService reviewMileageService;
-    private EventService eventService;
+    private final ReviewMileageService reviewMileageService;
+    private final EventService eventService;
 
     @PostMapping("/events")
     public String checkEvent(ReviewDTO reviewDTO) {
 
         String check = eventService.check(reviewDTO);
 
-//        if (check.equals("REVIEW")) {
-//            reviewMileageService.reviewCheck(reviewDTO);
-//        } else {
-//            throw new RuntimeException("없는 이벤트에요.");
-//        }
+        if (check.equals("REVIEW")) {
+            reviewMileageService.actionCheck(reviewDTO);
+        } else {
+            throw new RuntimeException("없는 이벤트에요.");
+        }
 
         return null;
     }
